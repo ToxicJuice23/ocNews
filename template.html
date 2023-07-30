@@ -10,9 +10,6 @@
             background-color: white;
             color: white;
         }
-        .alert {
-            background-color: #d2a654;
-        }
         .alerts {
             padding-left: 1rem;
             padding-right: 1rem;
@@ -36,7 +33,7 @@
         </div>
         <div class="alerts row p-2">
             {{ range $val := . }}
-                <p class="alert col-12">{{ $val }}</p>
+                <p class="alert bg-info col-12">{{ $val }}</p>
             {{ end }}
         </div>
         {{ else }}
