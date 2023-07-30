@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>OC Transpo news</title>
+    <style>
+        body {
+            background-color: wheat;
+        }
+        .alerts {
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+{{ if . }}
+    <h2>Current alerts:</h2>
+    <div class="alerts">
+        {{ range $val := . }}
+            <p class="alert">*  {{ $val }}</p>
+        {{ end }}
+    </div>
+{{ else }}
+<h2>No alerts in progress</h2>
+{{ end }}
+</body>
+</html>
