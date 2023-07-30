@@ -30,7 +30,7 @@
         </div>
         <div class="alerts row p-2">
             {{ range $val := . }}
-                <p class="alert col-12 bg-warning">*  {{ $val }}</p>
+                <p class="alert col-12 bg-warning">{{ $val }}</p>
             {{ end }}
         </div>
         {{ else }}
