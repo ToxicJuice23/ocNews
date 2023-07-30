@@ -1,27 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>OC Transpo news</title>
     <style>
         body {
-            background-color: wheat;
+            background-color: white;
         }
         .alerts {
-            padding-left: 20px;
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+        .title {
+            padding: 1rem;
+            border-bottom: 1px solid black
         }
     </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
 <body>
-{{ if . }}
-    <h2>Current alerts:</h2>
-    <div class="alerts">
-        {{ range $val := . }}
-            <p class="alert">*  {{ $val }}</p>
+    <div class="container-fluid">
+        {{ if . }}
+        <div class="row">
+            <div class="col-12 title">
+                <h2>Current Alerts</h2>
+            </div>
+        </div>
+        <div class="alerts row p-2">
+            {{ range $val := . }}
+                <p class="alert col-12 bg-warning">*  {{ $val }}</p>
+            {{ end }}
+        </div>
+        {{ else }}
+            <h2>No alerts in progress</h2>
         {{ end }}
     </div>
-{{ else }}
-<h2>No alerts in progress</h2>
-{{ end }}
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
 </body>
 </html>
