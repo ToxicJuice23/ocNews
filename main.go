@@ -34,13 +34,24 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(os.Stderr, "%v\n", err)
 		return
 	}
+
 	t.Execute(w, getAlerts())
+}
+
+func healthHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "HEAD" || r.Method != "head" {
+		w.WriteHeader(400)
+		fmt.Fprintf(w, "Illegal Method, must be HEAD.\n")
+	} else {
+		w.WriteHeader(200)
+	}
 }
 
 func main() {
 	fmt.Fprintf(os.Stdout, "Initializing server.\n")
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", homeHandler)
+	mux.HandleFunc("/health", healthHandler)
 	port := os.Getenv("PORT")
 	if len(port) == 0 {
 		port = ":80"
