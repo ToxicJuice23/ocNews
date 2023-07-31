@@ -39,9 +39,9 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func healthHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method != "HEAD" || r.Method != "head" {
+	if r.Method != http.MethodHead {
 		w.WriteHeader(400)
-		fmt.Fprintf(w, "Illegal Method, must be HEAD.\n")
+		fmt.Fprintf(w, "Illegal Method, must be HEAD.\nRecieved method: %s\n", r.Method)
 	} else {
 		w.WriteHeader(200)
 	}
