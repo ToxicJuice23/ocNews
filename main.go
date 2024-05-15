@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/PuerkitoBio/goquery"
@@ -27,12 +28,13 @@ func getAlerts() []alertInfo {
 
 	var alerts []alertInfo
 	doc.Find(".alert").Each(func(i int, s *goquery.Selection) {
-		route, exists := s.Attr("data-routes")
-		if exists {
+		station, exists := s.Attr("data-stations")
+		skip := false
+		if exists && strings.Compare(station, "") != 0 {
+			skip = true
 			alert := alertInfo{}
 			alert.Title = s.Find(".accordion").First().Text()
-			alert.RouteNumber = route
-			fmt.Printf("rn: %s\n", route)
+			alert.RouteNumber = station
 			infos := []string{}
 			content := s.Find(".accordion-content")
 			content = content.First().Children()
@@ -43,6 +45,38 @@ func getAlerts() []alertInfo {
 			alert.DateEffective = infos[1]
 			alert.Desc = infos[2]
 			alerts = append(alerts, alert)
+			if len(infos) > 3 {
+				i := 2
+				for i < len(infos) {
+					alert.Desc += infos[i]
+					i++
+				}
+			}
+		}
+		if !skip {
+			route, exists := s.Attr("data-routes")
+			if exists {
+				alert := alertInfo{}
+				alert.Title = s.Find(".accordion").First().Text()
+				alert.RouteNumber = route
+				infos := []string{}
+				content := s.Find(".accordion-content")
+				content = content.First().Children()
+
+				content.Each(func(i int, se *goquery.Selection) {
+					infos = append(infos, se.Text())
+				})
+				alert.DateEffective = infos[1]
+				alert.Desc = infos[2]
+				alerts = append(alerts, alert)
+				if len(infos) > 3 {
+					i := 2
+					for i < len(infos) {
+						alert.Desc += infos[i]
+						i++
+					}
+				}
+			}
 		}
 	})
 	return alerts
@@ -77,7 +111,6 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 	var buf []byte
 	if res == "/" {
 		buf, err = os.ReadFile("./public/index.html")
-		fmt.Printf("sent home\n")
 	} else {
 		buf, err = os.ReadFile("./public/" + res)
 	}
