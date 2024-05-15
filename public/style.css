@@ -1,0 +1,14 @@
+body {
+    background-color: white;
+    color: white;
+}
+.alerts {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+.title {
+    padding: 1rem;
+    color: white;
+    border-bottom: 1px solid black;
+    background-color: #eb1a2f;
+}
